@@ -16,7 +16,7 @@ echo "Creating resource group"
 az group create \
     --name $AZ_RESOURCE_GROUP \
     --location $AZ_LOCATION \
-    | jq
+    - o tsv
 
 echo "-----------------------------------------------------"
 echo "Creating MySQL Server instance"
@@ -29,7 +29,7 @@ az mysql server create \
     --storage-size 5120 \
     --admin-user $AZ_MYSQL_USERNAME \
     --admin-password $AZ_MYSQL_PASSWORD \
-    | jq
+    - o tsv
 
 echo "-----------------------------------------------------"
 echo "Configuring MySQL Server firewall"
@@ -41,7 +41,7 @@ az mysql server firewall-rule create \
     --server $AZ_DATABASE_NAME \
     --start-ip-address $AZ_LOCAL_IP_ADDRESS \
     --end-ip-address $AZ_LOCAL_IP_ADDRESS \
-    | jq
+    - o tsv
 
 echo "-----------------------------------------------------"
 echo "Configuring MySQL Server database"
@@ -50,4 +50,16 @@ az mysql db create \
     --resource-group $AZ_RESOURCE_GROUP \
     --name demo \
     --server-name $AZ_DATABASE_NAME \
-    | jq
+    - o tsv
+
+echo "Resources:"
+
+echo "-----------------------------------------------------"
+echo "Using environment variables:"
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"
+echo "AZ_LOCATION=$AZ_LOCATION"
+echo "AZ_MYSQL_USERNAME=$AZ_MYSQL_USERNAME"
+echo "AZ_MYSQL_PASSWORD=$AZ_MYSQL_PASSWORD"
+echo "AZ_LOCAL_IP_ADDRESS=$AZ_LOCAL_IP_ADDRESS"
+
+echo "-----------------------------------------------------"
